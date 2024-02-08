@@ -1,0 +1,56 @@
+---
+title: ''
+author: "Janessa Marie Esmalla"
+date: "2024-02-08"
+output:
+  pdf_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(rvest)
+library (polite)
+library(readr)
+library(httr)
+
+
+url <- 'https://www.amazon.co.uk/b?node=383381011&ref_=Oct_d_odnav_d_283926_1&pd_rd_w=CK9mK&content-id=amzn1.sym.c6fcbfa3-a0cb-49d1-be17-9aeb9a6d61f8&pf_rd_p=c6fcbfa3-a0cb-49d1-be17-9aeb9a6d61f8&pf_rd_r=MZ3YA7KNH8RHKXWBRF3P&pd_rd_wg=KefKh&pd_rd_r=53bec51c-f7fb-4ff6-8601-5bf1b44a6c4b'
+
+session <- bow(url,
+               user_agent = "Student's Demo Educational")
+session
+
+session_page <- scrape(session)
+
+
+names <- scrape(session)%>%
+html_nodes("div.a-section octopus-pc-asin-title")  %>%
+html_text()
+
+names[1:100]
+
+prices <- scrape(session)%>%
+html_nodes("span.a-price")  %>%
+html_text()
+
+prices[1:100]
+
+ratings <-  scrape(session)%>%
+html_nodes("div.a-section a-spacing-none a-text-left octopus-pc-asin-review-star")  %>%
+html_text()
+
+ratings[1:100]
+
+total_reviews <-scrape(session) %>% 
+  html_nodes("div.a-section octopus-pc-asin-title-review-section") %>% 
+  html_text()
+total_reviews[1:100]
+
+
+```
+
