@@ -1,10 +1,14 @@
 ---
-title: ''
+title: "Lab_Exercise 1"
 author: "Janessa Marie Esmalla"
 date: "2024-02-08"
 output:
-  pdf_document: default
-  word_document: default
+  pdf_document: 
+      latex_engine: xelatex
+  word_document: 
+         df_print: paged
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -14,43 +18,679 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(rvest)
-library (polite)
+library(polite)
 library(readr)
 library(httr)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(readr)
 
 
-url <- 'https://www.amazon.co.uk/b?node=383381011&ref_=Oct_d_odnav_d_283926_1&pd_rd_w=CK9mK&content-id=amzn1.sym.c6fcbfa3-a0cb-49d1-be17-9aeb9a6d61f8&pf_rd_p=c6fcbfa3-a0cb-49d1-be17-9aeb9a6d61f8&pf_rd_r=MZ3YA7KNH8RHKXWBRF3P&pd_rd_wg=KefKh&pd_rd_r=53bec51c-f7fb-4ff6-8601-5bf1b44a6c4b'
+#dress1_products
 
-session <- bow(url,
+url <- 'https://www.amazon.com.au/s?k=dresses+for+women&i=fashion-womens&crid=3PD41I8FX32W1&sprefix=dress%2Cfashion-womens%2C269&ref=nb_sb_ss_ts-doa-p_2_5'
+
+session1 <- bow(url,
                user_agent = "Student's Demo Educational")
-session
+session1
 
-session_page <- scrape(session)
+session_page <- scrape(session1)
 
 
-names <- scrape(session)%>%
-html_nodes("div.a-section octopus-pc-asin-title")  %>%
+
+dress1_name <- scrape(session1)%>%
+html_nodes("h2.a-size-mini.a-spacing-none.a-color-base.s-line-clamp-2") %>%
 html_text()
 
-names[1:100]
+dress1_name[2:26]
 
-prices <- scrape(session)%>%
+
+dress1_prices <- scrape(session1)%>%
 html_nodes("span.a-price")  %>%
 html_text()
 
-prices[1:100]
+dress1_prices[2:26]
 
-ratings <-  scrape(session)%>%
-html_nodes("div.a-section a-spacing-none a-text-left octopus-pc-asin-review-star")  %>%
+
+dress1_ratings <-  scrape(session1)%>%
+html_nodes("a.a-popover-trigger.a-declarative") %>%
 html_text()
 
-ratings[1:100]
+dress1_ratings[2:26]
 
-total_reviews <-scrape(session) %>% 
-  html_nodes("div.a-section octopus-pc-asin-title-review-section") %>% 
+
+dress1_num_reviews <-scrape(session1) %>% 
+  html_nodes("span.a-size-base.s-underline-text") %>%
   html_text()
-total_reviews[1:100]
+
+dress1_num_reviews[2:26]
+
+dress1_product <- data.frame(Dress_names =dress1_name[2:26],
+                            Dress_price= dress1_prices[2:26],
+                          Dress_ratings =dress1_ratings[2:26],
+                           Dress_reviews= dress1_num_reviews[2:26])
+dress1_product
+
+write.csv(dress1_product,"dress1_product.csv")
 
 
 ```
 
+```{r}
+#dress2_products
+
+url <- 'https://www.amazon.com.au/s?k=dresses+for+women&i=fashion-womens&page=2&crid=1B7MUFOHV9YN6&qid=1708566577&sprefix=dresses+for+women%2Cfashion-womens%2C283&ref=sr_pg_1'
+
+session2 <- bow(url,
+               user_agent = "Student's Demo Educational")
+session2
+
+session_page <- scrape(session2)
+
+dress2_names <- scrape(session2)%>%
+html_nodes("h2.a-size-mini.a-spacing-none.a-color-base.s-line-clamp-2") %>%
+html_text()
+
+dress2_names[2:26]
+
+
+dress2_prices <- scrape(session2)%>%
+html_nodes("span.a-price")  %>%
+html_text()
+
+dress2_prices[2:26]
+
+  
+dress2_ratings <-  scrape(session2)%>%
+html_nodes("a.a-popover-trigger.a-declarative") %>%
+html_text()
+
+dress2_ratings[2:26]
+
+
+dress2_num_reviews <-scrape(session2) %>% 
+  html_nodes("span.a-size-base.s-underline-text") %>%
+  html_text()
+
+dress2_num_reviews[2:26]
+
+dress2_product <- data.frame(Dress_names =dress2_names[2:26],
+                            Dress_price= dress2_prices[2:26],
+                          Dress_ratings =dress2_ratings[2:26],
+                           Dress_reviews= dress2_num_reviews[2:26])
+dress2_product
+
+
+write.csv(dress2_product,"dress2_product.csv")
+
+
+```
+
+```{r}
+
+#dress3_products
+
+url <- 'https://www.amazon.com.au/s?k=dresses+for+women&i=fashion-womens&page=3&crid=1B7MUFOHV9YN6&qid=1708566583&sprefix=dresses+for+women%2Cfashion-womens%2C283&ref=sr_pg_2'
+
+session3 <- bow(url,
+               user_agent = "Student's Demo Educational")
+session3
+
+session_page <- scrape(session3)
+
+dress3_names <- scrape(session3)%>%
+html_nodes("h2.a-size-mini.a-spacing-none.a-color-base.s-line-clamp-2") %>%
+html_text()
+
+dress3_names[2:26]
+
+
+dress3_prices <- scrape(session3)%>%
+html_nodes("span.a-price")  %>%
+html_text()
+
+dress3_prices[2:26]
+
+
+dress3_ratings <-  scrape(session3)%>%
+html_nodes("a.a-popover-trigger.a-declarative") %>%
+html_text()
+
+dress3_ratings[2:26]
+
+
+dress3_num_reviews <-scrape(session3) %>% 
+  html_nodes("span.a-size-base.s-underline-text") %>%
+  html_text()
+
+dress3_num_reviews[2:26]
+
+dress3_product <- data.frame(Dress_names =dress3_names[2:26],
+                            Dress_price= dress3_prices[2:26],
+                          Dress_ratings =dress3_ratings[2:26],
+                           Dress_reviews= dress3_num_reviews[2:26])
+dress3_product
+
+write.csv(dress3_product,"dress3_product.csv")
+
+```
+
+
+```{r}
+
+#dress4_products
+
+
+url <- 'https://www.amazon.com.au/s?k=dresses+for+women&i=fashion-womens&page=4&crid=1B7MUFOHV9YN6&qid=1708566807&sprefix=dresses+for+women%2Cfashion-womens%2C283&ref=sr_pg_3'
+
+session4 <- bow(url,
+               user_agent = "Student's Demo Educational")
+session4
+
+session_page <- scrape(session4)
+
+dress4_names <- scrape(session4)%>%
+html_nodes("h2.a-size-mini.a-spacing-none.a-color-base.s-line-clamp-2") %>%
+html_text()
+
+dress4_names[2:26]
+
+
+dress4_prices <- scrape(session4)%>%
+html_nodes("span.a-price")  %>%
+html_text()
+
+dress4_prices[2:26]
+
+
+dress4_ratings <-  scrape(session4)%>%
+html_nodes("a.a-popover-trigger.a-declarative") %>%
+html_text()
+
+dress4_ratings[2:26]
+
+
+dress4_num_reviews <-scrape(session4) %>% 
+  html_nodes("span.a-size-base.s-underline-text") %>%
+  html_text()
+
+dress4_num_reviews[2:26]
+
+
+dress4_product <- data.frame(Dress_names =dress4_names[2:26],
+                            Dress_price= dress4_prices[2:26],
+                          Dress_ratings = dress4_ratings[2:26],
+                           Dress_reviews= dress4_num_reviews[2:26])
+dress4_product
+
+write.csv(dress4_product,"dress4_product.csv")
+
+
+
+
+```
+
+
+```{r}
+
+dress_product_bind <- rbind(dress1_product,dress2_product,dress3_product,dress4_product)
+dress_product_bind
+
+kableExtra::kable(dress_product_bind,caption = "DRESS PRODUCTS FROM AMAZON AUSTRALIA",output_document = "pdf document",format="latex", booktabs=TRUE) %>%
+kable_styling(bootstrap_options = "striped",latex_options="scale_down",full_width = F)
+  
+
+
+```
+
+```{r}
+
+#DRESS_REVIEWS
+
+ dress_link1<- 'https://www.amazon.com.au/ZESICA-Womens-Flutter-Smocked-Elastic/product-reviews/B09VFXKZJ9/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews'
+
+session5 <- bow(dress_link1,
+               user_agent = "Student's Demo Educational")
+session5
+
+session_page <- scrape(session5)
+
+dress1_reviewer_names <- scrape(session5)%>%
+html_nodes("span.a-profile-name") %>%
+html_text()
+
+dress1_reviewer_names[1:10]
+
+
+date1_review <- scrape(session5)%>%
+html_nodes("span.a-size-base.a-color-secondary.review-date")  %>%
+html_text()
+
+date1_review[1:10]
+
+
+dress1_rev_ratings <-  scrape(session5)%>%
+html_nodes("span.a-icon-alt") %>%
+html_text()
+
+dress1_rev_ratings[1:10]
+
+
+dress1_rev_comment <-scrape(session5) %>% 
+  html_nodes("span.a-size-base.review-title.a-color-base.review-title-content.a-text-bold") %>%
+  html_text()
+
+dress1_rev_comment[1:10]
+
+dress1_review <- data.frame(REVIEWERS_NAME  =dress1_reviewer_names[1:10],
+                            DATE_REVIEW= date1_review[1:10],
+                          DRESS_RATE =dress1_rev_ratings[1:10],
+                           REVIEWERS_COMMENT= dress1_rev_comment [1:10])
+dress1_review
+
+
+
+```
+```{r}
+ dress_link1.2<- 'https://www.amazon.com.au/ZESICA-Womens-Flutter-Smocked-Elastic/product-reviews/B09VFXKZJ9/ref=cm_cr_getr_d_paging_btm_prev_2?ie=UTF8&reviewerType=all_reviews&pageNumber=2'
+
+session6 <- bow(dress_link1.2,
+               user_agent = "Student's Demo Educational")
+session6
+
+session_page <- scrape(session6)
+
+dress1_reviewer_names <- scrape(session6)%>%
+html_nodes("span.a-profile-name") %>%
+html_text()
+
+dress1_reviewer_names[1:10]
+
+
+date1_review <- scrape(session6)%>%
+html_nodes("span.a-size-base.a-color-secondary.review-date")  %>%
+html_text()
+
+date1_review[1:10]
+
+
+dress1_rev_ratings <-  scrape(session6)%>%
+html_nodes("span.a-icon-alt") %>%
+html_text()
+
+dress1_rev_ratings[1:10]
+
+
+dress1_rev_comment <-scrape(session6) %>% 
+  html_nodes("span.a-size-base.review-title.a-color-base.review-title-content.a-text-bold") %>%
+  html_text()
+
+dress1_rev_comment[1:10]
+
+dress1.2_review <- data.frame(REVIEWERS_NAME  =dress1_reviewer_names[1:10],
+                            DATE_REVIEW= date1_review[1:10],
+                          DRESS_RATE =dress1_rev_ratings[1:10],
+                           REVIEWERS_COMMENT= dress1_rev_comment [1:10])
+dress1.2_review
+
+
+
+```
+
+
+```{r}
+
+
+ dress_link2<- 'https://www.amazon.com.au/MEROKEETY-Womens-Summer-Striped-Pockets/product-reviews/B084GLKQX4/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews'
+
+session7 <- bow(dress_link2,
+               user_agent = "Student's Demo Educational")
+session7
+
+session_page <- scrape(session7)
+
+dress2_reviewer_names <- scrape(session7)%>%
+html_nodes("span.a-profile-name") %>%
+html_text()
+
+dress2_reviewer_names[1:10]
+
+
+date2_review <- scrape(session7)%>%
+html_nodes("span.a-size-base.a-color-secondary.review-date")  %>%
+html_text()
+
+date2_review[1:10]
+
+
+dress2_rev_ratings <-  scrape(session7)%>%
+html_nodes("span.a-icon-alt") %>%
+html_text()
+
+dress2_rev_ratings[1:10]
+
+
+dress2_rev_comment <-scrape(session7) %>% 
+  html_nodes("span.a-size-base.review-title.a-color-base.review-title-content.a-text-bold") %>%
+  html_text()
+
+dress2_rev_comment[1:10]
+
+dress2.1_review <- data.frame(REVIEWERS_NAME  =dress2_reviewer_names[1:10],
+                            DATE_REVIEW= date2_review[1:10],
+                          DRESS_RATE =dress2_rev_ratings[1:10],
+                           REVIEWERS_COMMENT= dress2_rev_comment [1:10])
+dress2.1_review
+```
+
+```{r}
+ dress_link2 <- 'https://www.amazon.com.au/MEROKEETY-Womens-Summer-Striped-Pockets/product-reviews/B084GLKQX4/ref=cm_cr_getr_d_paging_btm_next_3?ie=UTF8&reviewerType=all_reviews&pageNumber=2'
+
+session8 <- bow(dress_link2,
+               user_agent = "Student's Demo Educational")
+session8
+
+session_page <- scrape(session8)
+
+dress2_reviewer_names <- scrape(session8)%>%
+html_nodes("span.a-profile-name") %>%
+html_text()
+
+dress2_reviewer_names[1:10]
+
+
+date2_review <- scrape(session8)%>%
+html_nodes("span.a-size-base.a-color-secondary.review-date")  %>%
+html_text()
+
+date2_review[1:10]
+
+
+dress2_rev_ratings <-  scrape(session8)%>%
+html_nodes("span.a-icon-alt") %>%
+html_text()
+
+dress2_rev_ratings[1:10]
+
+
+dress2_rev_comment <-scrape(session8) %>% 
+  html_nodes("span.a-size-base.review-title.a-color-base.review-title-content.a-text-bold") %>%
+  html_text()
+
+dress2_rev_comment[1:10]
+
+dress2.2_review <- data.frame(REVIEWERS_NAME  =dress2_reviewer_names[1:10],
+                            DATE_REVIEW= date2_review[1:10],
+                          DRESS_RATE =dress2_rev_ratings[1:10],
+                           REVIEWERS_COMMENT= dress2_rev_comment [1:10])
+dress2.2_review
+```
+
+
+```{r}
+dress_link2 <- 'https://www.amazon.com.au/MEROKEETY-Womens-Summer-Striped-Pockets/product-reviews/B084GLKQX4/ref=cm_cr_getr_d_paging_btm_next_3?ie=UTF8&reviewerType=all_reviews&pageNumber=3'
+
+session9 <- bow(dress_link2,
+               user_agent = "Student's Demo Educational")
+session9
+
+session_page <- scrape(session9)
+
+dress2_reviewer_names <- scrape(session9)%>%
+html_nodes("span.a-profile-name") %>%
+html_text()
+
+dress2_reviewer_names[1:10]
+
+
+date2_review <- scrape(session9)%>%
+html_nodes("span.a-size-base.a-color-secondary.review-date")  %>%
+html_text()
+
+date2_review[1:10]
+
+
+dress2_rev_ratings <-  scrape(session9)%>%
+html_nodes("span.a-icon-alt") %>%
+html_text()
+
+dress2_rev_ratings[1:10]
+
+
+dress2_rev_comment <-scrape(session9) %>% 
+  html_nodes("span.a-size-base.review-title.a-color-base.review-title-content.a-text-bold") %>%
+  html_text()
+
+dress2_rev_comment[1:10]
+
+dress2.3_review <- data.frame(REVIEWERS_NAME  =dress2_reviewer_names[1:10],
+                            DATE_REVIEW= date2_review[1:10],
+                          DRESS_RATE =dress2_rev_ratings[1:10],
+                           REVIEWERS_COMMENT= dress2_rev_comment [1:10])
+dress2.3_review
+```
+
+```{r}
+
+dress_link3 <- 'https://www.amazon.com.au/Nautica-Womens-9300ZD-Classic-Stretch/product-reviews/B07NW2RP8Y/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews'
+
+session10 <- bow(dress_link3,
+               user_agent = "Student's Demo Educational")
+session10
+
+session_page <- scrape(session10)
+
+dress3_reviewer_names <- scrape(session10)%>%
+html_nodes("span.a-profile-name") %>%
+html_text()
+
+dress3_reviewer_names[1:10]
+
+
+date3_review <- scrape(session10)%>%
+html_nodes("span.a-size-base.a-color-secondary.review-date")  %>%
+html_text()
+
+date3_review[1:10]
+
+
+dress3_rev_ratings <-  scrape(session10)%>%
+html_nodes("span.a-icon-alt") %>%
+html_text()
+
+dress3_rev_ratings[1:10]
+
+
+dress3_rev_comment <-scrape(session10) %>% 
+  html_nodes("span.a-size-base.review-title.a-color-base.review-title-content.a-text-bold") %>%
+  html_text()
+
+dress3_rev_comment[1:10]
+
+dress3.1_review <- data.frame(REVIEWERS_NAME  =dress3_reviewer_names[1:10],
+                            DATE_REVIEW= date3_review[1:10],
+                          DRESS_RATE =dress3_rev_ratings[1:10],
+                           REVIEWERS_COMMENT= dress3_rev_comment [1:10])
+dress3.1_review
+
+```
+
+```{r}
+dress_link3.2 <- 'https://www.amazon.com.au/Nautica-Womens-9300ZD-Classic-Stretch/product-reviews/B07NW2RP8Y/ref=cm_cr_arp_d_paging_btm_next_2?ie=UTF8&reviewerType=all_reviews&pageNumber=2'
+
+session11 <- bow(dress_link3.2,
+               user_agent = "Student's Demo Educational")
+session11
+
+session_page <- scrape(session11)
+
+dress3_reviewer_names <- scrape(session11)%>%
+html_nodes("span.a-profile-name") %>%
+html_text()
+
+dress3_reviewer_names[1:10]
+
+
+date3_review <- scrape(session11)%>%
+html_nodes("span.a-size-base.a-color-secondary.review-date")  %>%
+html_text()
+
+date3_review[1:10]
+
+
+dress3_rev_ratings <-  scrape(session11)%>%
+html_nodes("span.a-icon-alt") %>%
+html_text()
+
+dress3_rev_ratings[1:10]
+
+
+dress3_rev_comment <-scrape(session11) %>% 
+  html_nodes("span.a-size-base.review-title.a-color-base.review-title-content.a-text-bold") %>%
+  html_text()
+
+dress3_rev_comment[1:10]
+
+dress3.2_review <- data.frame(REVIEWERS_NAME  =dress3_reviewer_names[1:10],
+                            DATE_REVIEW= date3_review[1:10],
+                          DRESS_RATE =dress3_rev_ratings[1:10],
+                           REVIEWERS_COMMENT= dress3_rev_comment [1:10])
+dress3.2_review
+
+```
+
+
+
+```{r}
+dress_link3.3 <- 'https://www.amazon.com.au/Nautica-Womens-9300ZD-Classic-Stretch/product-reviews/B07NW2RP8Y/ref=cm_cr_arp_d_paging_btm_next_2?ie=UTF8&reviewerType=all_reviews&pageNumber=3'
+
+session12 <- bow(dress_link3.3,
+               user_agent = "Student's Demo Educational")
+session12
+
+session_page <- scrape(session12)
+
+dress3_reviewer_names <- scrape(session12)%>%
+html_nodes("span.a-profile-name") %>%
+html_text()
+
+dress3_reviewer_names[1:10]
+
+
+date3_review <- scrape(session12)%>%
+html_nodes("span.a-size-base.a-color-secondary.review-date")  %>%
+html_text()
+
+date3_review[1:10]
+
+
+dress3_rev_ratings <-  scrape(session12)%>%
+html_nodes("span.a-icon-alt") %>%
+html_text()
+
+dress3_rev_ratings[1:10]
+
+
+dress3_rev_comment <-scrape(session12) %>% 
+  html_nodes("span.a-size-base.review-title.a-color-base.review-title-content.a-text-bold") %>%
+  html_text()
+
+dress3_rev_comment[1:10]
+
+dress3.3_review <- data.frame(REVIEWERS_NAME  =dress3_reviewer_names[1:10],
+                            DATE_REVIEW= date3_review[1:10],
+                          DRESS_RATE =dress3_rev_ratings[1:10],
+                           REVIEWERS_COMMENT= dress3_rev_comment [1:10])
+dress3.3_review
+
+```
+
+```{r}
+dress_link4 <- 'https://www.amazon.com.au/Tommy-Hilfiger-T-Shirt-Sleeve-Dresses/product-reviews/B0BVK23NN3/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews'
+
+session13 <- bow(dress_link4,
+               user_agent = "Student's Demo Educational")
+session13
+
+session_page <- scrape(session13)
+
+dress4_reviewer_names <- scrape(session13)%>%
+html_nodes("span.a-profile-name") %>%
+html_text()
+
+dress4_reviewer_names[1:10]
+
+
+date4_review <- scrape(session13)%>%
+html_nodes("span.a-size-base.a-color-secondary.review-date")  %>%
+html_text()
+
+date4_review[1:10]
+
+
+dress4_rev_ratings <-  scrape(session13)%>%
+html_nodes("span.a-icon-alt") %>%
+html_text()
+
+dress4_rev_ratings[1:10]
+
+
+dress4_rev_comment <-scrape(session13) %>% 
+  html_nodes("span.a-size-base.review-title.a-color-base.review-title-content.a-text-bold") %>%
+  html_text()
+
+dress4_rev_comment[1:10]
+
+dress4_review <- data.frame(REVIEWERS_NAME  =dress4_reviewer_names[1:10],
+                            DATE_REVIEW= date4_review[1:10],
+                          DRESS_RATE =dress4_rev_ratings[1:10],
+                           REVIEWERS_COMMENT= dress4_rev_comment [1:10])
+dress4_review
+
+
+```
+
+```{r}
+dress_link4 <- 'https://www.amazon.com.au/Tommy-Hilfiger-T-Shirt-Sleeve-Dresses/product-reviews/B0BVK23NN3/ref=cm_cr_arp_d_paging_btm_next_2?ie=UTF8&reviewerType=all_reviews&pageNumber=2'
+
+session14 <- bow(dress_link4,
+               user_agent = "Student's Demo Educational")
+session14
+
+session_page <- scrape(session14)
+
+dress4_reviewer_names <- scrape(session14)%>%
+html_nodes("span.a-profile-name") %>%
+html_text()
+
+dress4_reviewer_names[1:10]
+
+
+date4_review <- scrape(session14)%>%
+html_nodes("span.a-size-base.a-color-secondary.review-date")  %>%
+html_text()
+
+date4_review[1:10]
+
+
+dress4_rev_ratings <-  scrape(session14)%>%
+html_nodes("span.a-icon-alt") %>%
+html_text()
+
+dress4_rev_ratings[1:10]
+
+
+dress4_rev_comment <-scrape(session14) %>% 
+  html_nodes("span.a-size-base.review-title.a-color-base.review-title-content.a-text-bold") %>%
+  html_text()
+
+dress4_rev_comment[1:10]
+
+dress4.1_review <- data.frame(REVIEWERS_NAME  =dress4_reviewer_names[1:10],
+                            DATE_REVIEW= date4_review[1:10],
+                          DRESS_RATE =dress4_rev_ratings[1:10],
+                           REVIEWERS_COMMENT= dress4_rev_comment [1:10])
+dress4.1_review
+
+```
