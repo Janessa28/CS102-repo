@@ -1,0 +1,116 @@
+---
+title: "EXERSCISE 1"
+author: "Janessa Marie Esmalla"
+date: "2024-03-07"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+```{r}
+
+#1
+
+data("warpbreaks")
+
+warpbreaks_datatype <- sapply(warpbreaks, function(x) ifelse(is.numeric(x)| is.integer(x), class(x), NA))
+warpbreaks_datatype <- 
+warpbreaks_datatype[!is.na(warpbreaks_datatype)]
+warpbreaks_datatype
+ 
+num_observations <- nrow(warpbreaks) 
+num_observations 
+ 
+warpbreaks$breaks <- as.integer(warpbreaks$breaks)
+
+
+
+write.csv(warpbreaks,"warpbreaks.csv")
+```
+
+
+
+A 1.
+```{r}
+warpbreaks_datatype <- sapply(warpbreaks, is.numeric) 
+warpbreaks_datatype 
+#The data type of each column are breaks, wool and tension.
+
+
+```
+
+A 2.
+```{r}
+num_observations <- nrow(warpbreaks) 
+num_observations
+ #There are 54 observations 
+
+```
+
+
+A 3.
+```{r}
+
+warpbreaks_datatype <- sapply(warpbreaks, function(x) ifelse(is.numeric(x)| is.integer(x), class(x), NA))
+warpbreaks_datatype <- 
+warpbreaks_datatype[!is.na(warpbreaks_datatype)]
+warpbreaks_datatype
+
+```
+
+  
+A 4. 
+```{r}
+#warpbreaks_datatype <- sapply(warpbreaks, function(x) ifelse(is.numeric(x) the error is about is in numeric,it simply means that the functionwhere the code couldn't find numeric
+``` 
+
+```{r}
+#B1.
+
+file_lines <- readLines("exampleFile.txt")
+```
+
+```{r}
+#B2.
+comments <- file_lines[grepl("^#", file_lines)]
+data_lines <- file_lines[!grepl("^#", file_lines)]
+```
+
+```{r}
+#B3.
+date_string <- gsub("^# Date: ", "", comments[1])
+cat("It was created  data", date_string, "\n") 
+```
+
+```{r}
+#B4.
+#a 
+survey_data <- strsplit(data_lines, ";")
+
+#b
+max_fields <- max(sapply(survey_data, length))
+
+for (i in seq_along(survey_data)) {
+  survey_data[[i]] <- c(survey_data[[i]], rep(NA, max_fields - length(survey_data[[i]])))
+}
+
+#c
+data_matrix <- matrix(unlist(survey_data), ncol = max_fields, byrow = TRUE)
+#d
+field_names <- unlist(strsplit(comments[2:4], ";"))
+colnames(data_matrix) <- field_names
+
+print(data_matrix)
+
+
+write.csv(data_matrix,"survey data.csv")
+
+
+```
+
+
